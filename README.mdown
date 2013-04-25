@@ -1,0 +1,3 @@
+# firedoom.js
+
+Seriously alpha. Seriously unfinished.
