@@ -1,0 +1,1 @@
+console.log("cid: ", cmp.id);

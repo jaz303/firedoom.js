@@ -1,0 +1,32 @@
+[x] compile events/masks
+[x] write message delivery code
+[x] 2 systems exchanging messages
+
+[ ] services (inert systems)
+  [ ] random number generator
+
+[ ] input event handling
+  [ ] distribution (convert user events to game events)
+  [ ] record
+  [ ] playback
+  (this isn't part of the entity system, just the timebase stuff)
+  
+[ ] snapshots, playback
+  
+[ ] components/entities
+
+[ ] event monitoring
+  
+[ ] accurate timing
+
+[ ] live code reloading
+
+[ ] FUSE integration
+
+[ ] UI
+
+
+Compilation
+ - bundle event compilation together
+ - calculate system event masks
+   - regenerate if events change
