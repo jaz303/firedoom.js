@@ -14,5 +14,6 @@ system.snapshot = function() {
 }
 
 system.update = function(time) {
-  this.sendLater(1000, events.COLLISION);
+  //this.sendLater(5000, events.COLLISION);
+  this.sendAsync(events.COLLISION);
 }

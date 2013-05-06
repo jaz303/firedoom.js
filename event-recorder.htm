@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <title>Firedoom Demo</title>
+    
+    <script src='vendor/jquery.min.js'></script>
+    
+    <script src='vendor/jf-signals/lib/signals.js'></script>
+    <script src='vendor/jf-classkit/lib/classkit.js'></script>
+    <script src='vendor/jf-mathkit/lib/mathkit.js'></script>
+    
+    <script src='lib/firedoom.js'></script>
+    <script src='lib/Engine.js'></script>
+    <script src='lib/Registry.js'></script>
+    <script src='lib/Compiler.js'></script>
+    <script src='lib/World.js'></script>
+    
+    <script src='lib/blueprint/index.js'></script>
+    <script src='lib/blueprint/Component.js'></script>
+    <script src='lib/blueprint/System.js'></script>
+    <script src='lib/blueprint/Event.js'></script>
+    <script src='lib/blueprint/EventCategory.js'></script>
+    
+    <script>
+      function init() {
+        
+        //
+        // Clock
+        
+        
+        function Clock(time) {
+          this.time = time || 0;
+          this.delta = null;
+        }
+        
+        Clock.prototype.now = function() { return this.time; }
+        Clock.prototype.set = function(time) { this.time = time; this.delta = null; }
+        Clock.prototype.tick = function(delta) { this.time += delta; this.delta = delta; }
+        Clock.prototype.tickAbs = function(time) { this.delta = time - this.time; this.time = time; }
+        
+        //
+        // Interactive loop
+        
+        function run(fps, clock, log, handlers) {
+          clock.set(Date.now());
+          
+          if (isRecording())
+            log.push(clock.now());
+          
+          var targetDelta = 1000 / fps,
+              lastTick    = Date.now();
+          
+          function tick() {
+            var now = Date.now(),
+                actualDelta = (now - lastTick);
+            
+            clock.tick(actualDelta);
+            
+            if (isRecording())
+              log.push(clock.now());
+            
+            handlers.tick();
+            var elapsed = Date.now() - now;
+            
+            lastTick = now;
+            
+            setTimeout(tick, Math.max(0, targetDelta - elapsed));
+          }
+          
+          setTimeout(tick, targetDelta);
+        }
+        
+        //
+        // Playback loop
+        
+        function playback(fps, clock, log, handlers) {
+          clock.set(log[0]);
+          
+          var ix = 1;
+          
+          function tick() {
+            var now = Date.now();
+            
+            var evt = log[ix], type = null, time = null;
+            if (typeof evt == 'number') {
+              type = 'tick'; time = evt;
+            } else {
+              type = evt.type; time = evt.time;
+            }
+            
+            clock.tickAbs(time);
+            handlers[type](evt);
+            
+            var elapsed = Date.now() - now;
+            
+            ix++;
+            if (ix < log.length) {
+              var nextTime = ((typeof log[ix] == 'number') ? log[ix] : log[ix].time);
+              setTimeout(tick, Math.max(0, (nextTime - time) - elapsed));
+            }
+          }
+          
+          setTimeout(tick, ((typeof log[1] == 'number') ? log[1] : log[1].time) - log[0]);
+        }
+        
+        //
+        // Foo
+        
+        var $canvas = $('#canvas');
+        var ctx, mousedown, lastX, lastY;
+        
+        function resetApp() {
+          ctx = $canvas[0].getContext('2d');
+          ctx.lineWidth = 1;
+          ctx.strokeStyle = 'black';
+          mousedown = false;
+          lastX = 0;
+          lastY = 0;
+        }
+        
+        var handlers = {
+          tick: function() {},
+          mousedown: function() { mousedown = true; },
+          mouseup: function() { mousedown = false; },
+          mousemove: function(evt) {
+            if (mousedown) {
+              ctx.beginPath();
+              ctx.moveTo(lastX, lastY);
+              ctx.lineTo(evt.x, evt.y);
+              ctx.stroke();
+            }
+            lastX = evt.x;
+            lastY = evt.y;
+          },
+          click: function() {}
+        }
+        
+        var state = 'active',
+            clock = null,
+            log   = null;
+            
+        function emit(type, args) {
+          if (!isInteractive())
+            return;
+          
+          args = args || {};
+          args.type = type;
+          args.time = clock.now();
+          
+          if (isRecording())
+            log.push(args);
+          
+          handlers[args.type](args);
+        }
+        
+        function isInteractive() { return state != 'playback'; }
+        function isRecording() { return state == 'recording'; }
+        
+        $canvas.mousedown(function(evt) { emit('mousedown', {x: evt.offsetX, y: evt.offsetY}) })
+               .mouseup(function(evt) { emit('mouseup', {x: evt.offsetX, y: evt.offsetY}) })
+               .mousemove(function(evt) { emit('mousemove', {x: evt.offsetX, y: evt.offsetY}) })
+               .click(function(evt) { emit('click', {x: evt.offsetX, y: evt.offsetY}) });
+               
+        
+        clock = new Clock();
+        
+        resetApp();
+        
+        run(25, clock, [], handlers);
+        
+        
+      }
+    </script>
+    
+  </head>
+  <body onload='init()'>
+    <canvas id='canvas' width='400' height='400'></canvas>
+    <br>
+    <a href='#'>Record</a>
+    <a href='#'>Playback</a>
+  </body>
+</html>

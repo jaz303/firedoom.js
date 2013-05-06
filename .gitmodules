@@ -1,0 +1,3 @@
+[submodule "vendor/hudkit"]
+	path = vendor/hudkit
+	url = git@github.com:jaz303/hudkit.js.git

@@ -1,3 +1,10 @@
+[ ] integrate time handling
+  [ ] transport controls
+  [ ] mark, loop
+  [ ] 
+
+
+
 [x] compile events/masks
 [x] write message delivery code
 [x] 2 systems exchanging messages

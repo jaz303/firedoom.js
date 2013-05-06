@@ -1,1 +1,2 @@
-console.log("cid: ", cmp.id);
+cmp.title = 'Position'
+cmp.add('pos', 'vec2')
