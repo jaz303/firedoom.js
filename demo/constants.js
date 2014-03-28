@@ -1,0 +1,17 @@
+module.exports = {
+	INVADER_WIDTH     : 32,
+	INVADER_HEIGHT    : 29,
+	SHIP_WIDTH        : 48,
+	SHIP_HEIGHT       : 31,
+	MISSILE_WIDTH     : 4,
+	MISSILE_HEIGHT    : 16,
+
+	GAME_WIDTH        : 500,
+	GAME_HEIGHT       : 400,
+	GAME_BORDER       : 10,
+
+	INVADER_COLS      : 7,
+	INVADER_ROWS      : 4,
+	INVADER_H_SPACING : 16,
+	INVADER_V_SPACING : 16
+};
