@@ -1,0 +1,27 @@
+{
+  "name": "firedoom-engine",
+  "version": "0.0.0",
+  "description": "Game engine based on a component-entity-system",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/jaz303/firedoom.js.git"
+  },
+  "keywords": [
+    "game",
+    "engine",
+    "ces",
+    "component",
+    "entity",
+    "system"
+  ],
+  "author": "Jason Frame <jason@onehackoranother.com> (http://jasonframe.co.uk)",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jaz303/firedoom.js/issues"
+  },
+  "homepage": "https://github.com/jaz303/firedoom.js"
+}
