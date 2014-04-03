@@ -1,3 +1,5 @@
 # firedoom.js
 
+This is a game engine based on a component entity system with built-in support for zero-restart live-coding.
+
 Seriously alpha. Seriously unfinished.
