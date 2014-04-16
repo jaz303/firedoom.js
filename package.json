@@ -23,5 +23,8 @@
   "bugs": {
     "url": "https://github.com/jaz303/firedoom.js/issues"
   },
-  "homepage": "https://github.com/jaz303/firedoom.js"
+  "homepage": "https://github.com/jaz303/firedoom.js",
+  "dependencies": {
+    "watchr": "~2.4.11"
+  }
 }

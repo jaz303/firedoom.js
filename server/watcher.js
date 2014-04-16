@@ -1,7 +1,13 @@
-var fs = require('fs');
+var watchr = require('watchr');
 
 module.exports = function(sourcePath) {
-    fs.watch(sourcePath, {persistent: true}, function(ev, filename) {
-        console.log(ev, filename);
+    watchr.watch({
+        path        : sourcePath,
+        persistent  : true,
+        listeners   : {
+            change: function(type, path, currState, oldStat) {
+                console.log('change: ', arguments);
+            }
+        }
     });
 }
