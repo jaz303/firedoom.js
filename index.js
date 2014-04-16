@@ -9,4 +9,6 @@
 
 var watcher = require('./server/watcher');
 
+console.log("watching...");
+
 watcher(__dirname + '/example');
