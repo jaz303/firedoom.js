@@ -1,0 +1,35 @@
+<!DOCTYPE>
+
+<html>
+<head>
+  <title>Firedoom Studio</title>
+  <script>
+    function init() {
+      
+      var socket = new WebSocket("ws://localhost:8080/watcher");
+
+      function handleFileChange(evt) {
+        console.log(evt);
+      }
+
+      socket.onopen = function(evt) {
+        console.log("open!");
+      }
+
+      socket.onmessage = function(evt) {
+
+        var reader = new FileReader();
+        reader.addEventListener('loadend', function() {
+          handleFileChange(JSON.parse(reader.result));
+        });
+
+        reader.readAsText(evt.data);
+      }
+
+    }
+  </script>
+</head>
+<body onload='init();'>
+
+</body>
+</html>

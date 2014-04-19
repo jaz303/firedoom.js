@@ -25,6 +25,7 @@
   },
   "homepage": "https://github.com/jaz303/firedoom.js",
   "dependencies": {
-    "watchr": "~2.4.11"
+    "watchr": "~2.4.11",
+    "ws": "~0.4.31"
   }
 }
